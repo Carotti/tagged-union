@@ -9,7 +9,7 @@ def test_match_int():
 
 def test_tagged_union_subclass():
     @tagged_union
-    class A:
+    class A(object):
         B = Self
         C = int
 
