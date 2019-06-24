@@ -13,7 +13,7 @@ install:
 - pip install -r requirements-dev.txt
 - pip install .
 script:
-- pylint tagged_union
+- pylint tagged_union --py3k
 - pytest --cov=tagged_union
 after_success:
 - coveralls

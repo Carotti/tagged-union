@@ -87,6 +87,9 @@ def tagged_union(cls):
         def __eq__(self, other):
             return (self.name, self.args) == (other.name, other.args)
 
+        def __hash__(self):
+            return hash((self.name, self.args))
+
     class TaggedUnionMemberFactory:
         """Helper class for creating tagged union members.
 
