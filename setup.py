@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="tagged-union",
-    version="0.0.1",
+    version="0.0.2",
     author="Thomas Carotti",
     author_email="thomas@carotti.co.uk",
     description="Python tagged unions (aka sum types, algebraic data types, etc.) with match capabilities",
