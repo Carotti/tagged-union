@@ -14,7 +14,8 @@ class Nat(object):
     def __sub__(self, other):
         return match(self, {
             Nat.O: lambda: self,
-            Nat.S: lambda ns:
+            Nat.S:
+            lambda ns:
                 match(other, {
                     Nat.O: lambda: self,
                     Nat.S: lambda no: ns - no,
@@ -36,7 +37,8 @@ class Nat(object):
     def __lt__(self, other):
         return match(other, {
             Nat.O: lambda: False,
-            Nat.S: lambda no:
+            Nat.S:
+            lambda no:
                 match(self, {
                     Nat.O: lambda: True,
                     Nat.S: lambda ns: ns < no,
@@ -45,7 +47,7 @@ class Nat(object):
 
     def __ge__(self, other):
         return not self < other
-    
+
     def to_int(self):
         return match(self, {
             Nat.O: lambda: 0,
@@ -53,7 +55,7 @@ class Nat(object):
         })
 
     def __repr__(self):
-        return repr(self.to_int())
+        return repr(self.to_int()) + "%" + Nat.__name__
 
 zero = Nat.O()
 

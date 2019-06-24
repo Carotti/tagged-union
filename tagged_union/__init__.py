@@ -1,14 +1,11 @@
-class Self(object):
-    pass
+Self = type("Self", (object,), {})
 
-class Unit(object):
-    pass
+Unit = type("Unit", (object,), {})
 
-class _(object):
-    pass
+_ = object()
 
 def tagged_union(cls):
-    assert(issubclass(cls, object))
+    assert issubclass(cls, object)
 
     class TaggedUnionMember(cls):
         def __init__(self, name, args):
@@ -17,17 +14,19 @@ def tagged_union(cls):
 
         def __repr__(self):
             if '__repr__' in vars(cls):
-                return cls.__repr__(self)
+                rep = cls.__repr__(self)
             else:
-                return cls.__name__ + "." + self.name + repr(self.args)
+                rep = cls.__name__ + "." + self.name + repr(self.args)
+
+            return rep
 
         def __eq__(self, other):
             return (self.name, self.args) == (other.name, other.args)
 
-    class TaggedUnionMemberFactory(object):
+    class TaggedUnionMemberFactory:
         def __init__(self, name, types):
-            for t in types:
-                assert(isinstance(t, type))
+            for typ in types:
+                assert isinstance(typ, type)
 
             self._name = name
             self._types = types
@@ -36,9 +35,9 @@ def tagged_union(cls):
             gen_types = (t for t in self._types)
 
             for arg in args:
-                assert(isinstance(arg, next(gen_types)))
+                assert isinstance(arg, next(gen_types))
 
-            assert(next(gen_types) == Unit)
+            assert next(gen_types) == Unit
 
             return TaggedUnionMember(self._name, args)
 
@@ -54,8 +53,8 @@ def tagged_union(cls):
     # Union members are either types or tuples
     members = (v for v in vars(cls) if isinstance(vars(cls)[v], (type, tuple)))
 
-    for m in members:
-        types = vars(cls)[m]
+    for mem in members:
+        types = vars(cls)[mem]
 
         if not isinstance(types, tuple):
             types = (types,)
@@ -64,21 +63,21 @@ def tagged_union(cls):
         types = tuple(cls if t == Self else t for t in types)
 
         # Append a Unit to the end if not already present
-        if not types[-1] == Unit: 
+        if not types[-1] == Unit:
             types = tuple(list(types) + [Unit])
 
-        setattr(cls, m, TaggedUnionMemberFactory(m, types))
+        setattr(cls, mem, TaggedUnionMemberFactory(mem, types))
 
     return cls
 
-def match(u, branches):
-    key = u.name if hasattr(u, 'name') else u
+def match(union, branches):
+    key = union.name if hasattr(union, 'name') else union
 
     if key in branches:
         action = branches[key]
     else:
         action = branches[_]
 
-    args = u.args if hasattr(u, 'args') else tuple()
+    args = union.args if hasattr(union, 'args') else tuple()
 
     return action(*args)

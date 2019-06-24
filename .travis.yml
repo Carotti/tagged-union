@@ -1,0 +1,22 @@
+dist: xenial
+language: python
+python:
+- '2.7'
+- '3.5'
+- '3.6'
+- '3.7'
+- 3.7-dev
+- 3.8-dev
+- nightly
+- pypy3.5
+install:
+- pip install -r requirements-dev.txt
+- pip install .
+script:
+- pytest --cov=tagged_union
+- pylint tagged_union
+deploy:
+  provider: pypi
+  user: Carotti
+  password:
+    secure: bkoMe624SV4BT91DD0Wp7hIb/EAymCBAmvtP44Gl2/FpewwWgEMSe60i1nJ9sCz9YUmaE7WbKmXkJDd+YwXbfgsud9SFU6CpI2/gCRwvQZLuzesFOH7+lOuagR288YeS8P7QA2r4ZdetpRssE6vLlWhv9hLWWoYxqHnH+tjUg9r2XFiMsvkoMfihf/ejtI+ghISYxeftVF5owstLu0xtSs8v4gAYs0aA1kS3hykBtLMwm9puINUnvftnXV7F/xY5HxM4LLuH8qp6BAAHYeXdflWhWkUAfQ8CDWyGpDlKeqjHIyMfdOE4nCg9iw/q/Uuadk4b8zenREg7YFVw1AZDr5gfCTPwWzh40rrOeahHNLNRTYk7BcCtS7p2CnqT6//fuakW8o65qAgxaBr+uGPAZ9YyFvMr1qkJan8cp7Cxee5wsIQ+QF+Vc7FeALzFXSybWQrmf52IWbdcxhLJOCvYcDwPxOJPcKfRV5WnZwBWfHg98iqkYcpvrfvnwS7W3qsAM4Hh62+HpHvoQDxuCdnv07h5/uSxexgUtmY2l9BInCZkYIyIbQ0gsUI0cMltzrx2+RktU/43m+t5SbdANVFfvoZwdZTCgfS/ia2anoJsbA3q6CCZtChg0lJkggMDFFXwDXIAruVRs+sQyplpEesWnLVtlXCo2atLqFvlCEUT/Sw=
