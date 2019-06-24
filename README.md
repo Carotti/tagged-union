@@ -1,4 +1,4 @@
 Python Tagged Unions
 ====================
 
-Python tagged unions (sum type, algebraic data types, etc.) with match capabilities
+Python tagged unions (aka sum types, algebraic data types, etc.) with match capabilities

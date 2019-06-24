@@ -1,20 +1,22 @@
 dist: xenial
 language: python
 python:
-- '2.7'
-- '3.5'
-- '3.6'
-- '3.7'
-- 3.7-dev
-- 3.8-dev
-- nightly
-- pypy3.5
+  - '2.7'
+  - '3.5'
+  - '3.6'
+  - '3.7'
+  - 3.7-dev
+  - 3.8-dev
+  - nightly
+  - pypy3.5
 install:
-- pip install -r requirements-dev.txt
-- pip install .
+  - pip install -r requirements-dev.txt
+  - pip install .
 script:
-- pytest --cov=tagged_union
-- pylint tagged_union
+  - pylint tagged_union
+  - pytest --cov=tagged_union
+after_success:
+  - coveralls
 deploy:
   provider: pypi
   user: Carotti

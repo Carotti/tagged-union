@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.0.1",
     author="Thomas Carotti",
     author_email="thomas@carotti.co.uk",
-    description="Python tagged unions (sum type, algebraic data types, etc.) with match capabilities",
+    description="Python tagged unions (aka sum types, algebraic data types, etc.) with match capabilities",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/carotti/tagged-union",
