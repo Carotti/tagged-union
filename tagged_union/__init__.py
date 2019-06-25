@@ -1,4 +1,4 @@
-"""Tagged Unions
+"""Python implementation of tagged unions.
 
 Python tagged unions (aka sum types, algebraic data types, etc.) are a common
 tool in functional and functional style programming. This module provides a
@@ -13,20 +13,54 @@ member should be constructed. All tagged union members inherit from the orignal
 tagged union class, allowing common implementations inside this class.
 
 Example:
+    It is worth noting that python imports ignores identifiers which start with
+    `_`, so if you wish to use the `_` identifier as a wildcard for matching,
+    it must be imported explicitly::
+
+        from tagged_union import _
+        from tagged_union import *
+
     The following example creates a tagged union which has two members, `Foo`
     and `Bar`. `Foo` accepts no arguments as its constructor and `Bar` accepts
     an instance of MyTaggedUnion (either another `Bar` or a `Foo`)::
 
         @tagged_union
-        class MyU:
+        class MyU(object):
             Foo = Unit
             Bar = Self
 
         test = MyU.Bar(MyU.Bar(MyU.Bar(MyU.Foo())))
+        print(test)
+
+    It is then possible to use the match function against this new object. In
+    this case, the `count` function counts how many MyU.Bar constructors appear
+    in the object::
+
+        def count(test):
+            return match(test, {
+                MyU.Foo: lambda: 0,
+                MyU.Bar: lambda x: 1 + count(x),
+            })
+
+        print(count(test))
+
+    In its naive form, the match function can behave like a switch statement,
+    if not used on a tagged union type. This also still supports `_` for
+    wildcarding matches::
+
+        def name_to_id(name):
+            return match(name, {
+                "Tom": lambda: 11,
+                "Sarah": lambda: 12,
+                _: lambda: -1,
+            })
+
+        print(name_to_id("Tom"))
+        print(name_to_id("Michael"))
 
 Attributes:
     Self (type): For defining recursive tagged unions. `Self` is replaced with
-    the type of the tagged union class itself.
+        the type of the tagged union class itself.
 
     Unit (type): Use as a type for tagged union members who accept no arguments
         in their constructors. Also used internally as a sentinel to check that
@@ -150,7 +184,7 @@ def match(union, branches):
 
     Allows matching of instances of tagged union members against their type.
     Can also just be used as a switch-like statement if used with other objects
-    such as `int`s. Uses the tagged union member's constructor arguments as the
+    such as `int`. Uses the tagged union member's constructor arguments as the
     arguments to the matching branch's function.
 
     Args:
@@ -159,8 +193,7 @@ def match(union, branches):
             under the different matches. `_` can be used for wildcard matching.
 
     Returns:
-        object: The result of calling the matches function with the arguments
-            of the matched object.
+        object: The result of calling the match's function.
     """
 
     key = union.name if hasattr(union, 'name') else union

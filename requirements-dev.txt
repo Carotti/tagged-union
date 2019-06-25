@@ -2,5 +2,3 @@ coveralls
 pylint
 pytest
 pytest-cov
-sphinx
-sphinxcontrib-napoleon
