@@ -29,7 +29,7 @@ def test_eq_default():
     assert b == A.B(A.C(1))
 
 @tagged_union
-class ReprUnion:
+class ReprUnion(object):
     B = Self
     C = int
 
